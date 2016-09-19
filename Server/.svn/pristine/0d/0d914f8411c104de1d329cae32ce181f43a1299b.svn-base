@@ -1,0 +1,191 @@
+package coloretto.player;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Game {
+
+	public static Integer gamesID = 0;
+	public Integer gameID;
+	public Integer round;
+	public List<Player> players;
+
+	public List<Row> rows = new ArrayList<Row>();;
+	public PackOfCards cards;
+	public Card currentCard;
+	public Integer currentTurn;
+	public Player currentPlayer;
+	public boolean started;
+	public Integer controlRound = 0;
+	public boolean lastRound;
+
+	
+	public Game(Integer num_player) {
+		this.round = 1;
+		gameID = gamesID;
+		Game.gamesID++;
+		players = new ArrayList<Player>();
+	
+		if (num_player.equals(2)) {
+			rows.add(new Row(1));
+			rows.add(new Row(2));
+			rows.add(new Row(3));
+		
+		} else {
+			for(int i=0; i<num_player; i++){
+				rows.add(new Row(3));
+			}
+		
+		}
+		started = false;
+		lastRound = false;
+	}
+
+	public void setStarted(boolean started) {
+		this.started = started;
+	}
+
+	public void addPlayer(Player player) {
+		players.add(player);
+	}
+
+	public void removePlayer(Player player) {
+		players.remove(player);
+	}
+	public boolean isLastRound() {
+		return lastRound;
+	}
+
+	public void setLastRound(boolean lastRound) {
+		this.lastRound = lastRound;
+	}
+
+
+	public Integer getGameID() {
+		return gameID;
+	}
+
+	public String toString() {
+		return "Juego: " + getGameID().toString() + ". Jugadores: "
+				+ players.toString() + ". Iniciada: " + started;
+	}
+
+	public void startGame() {
+		
+		if(players.size()==2){
+			players.get(0).getCards().add(new Card(E_Card.BLUE));
+			players.get(0).getCards().add(new Card(E_Card.BROWN));
+			players.get(1).getCards().add(new Card(E_Card.GRAY));
+			players.get(1).getCards().add(new Card(E_Card.GREEN));
+		}
+		if(players.size()==3){
+			players.get(0).getCards().add(new Card(E_Card.BLUE));
+			players.get(1).getCards().add(new Card(E_Card.BROWN));
+			players.get(2).getCards().add(new Card(E_Card.GRAY));
+		}
+		if(players.size()==4){
+			players.get(0).getCards().add(new Card(E_Card.BLUE));
+			players.get(1).getCards().add(new Card(E_Card.BROWN));
+			players.get(2).getCards().add(new Card(E_Card.GRAY));
+			players.get(3).getCards().add(new Card(E_Card.GREEN));
+		}
+		if(players.size()==5){
+			players.get(0).getCards().add(new Card(E_Card.BLUE));
+			players.get(1).getCards().add(new Card(E_Card.BROWN));
+			players.get(2).getCards().add(new Card(E_Card.GRAY));
+			players.get(3).getCards().add(new Card(E_Card.GREEN));
+			players.get(4).getCards().add(new Card(E_Card.ORANGE));
+		}
+		cards = new PackOfCards(players.size());
+		Collections.shuffle(players);
+		this.currentTurn = 0;
+		currentPlayer = players.get(currentTurn);
+		currentPlayer.setCurrentState(new Turn());
+		this.round = 0;
+		this.started = true;
+	}
+
+	public void nextTurn() {
+		
+		currentTurn = (currentTurn + 1) % players.size();
+	//	if (currentTurn.equals(0))
+	//		this.round = this.round + 1;
+		currentPlayer = players.get(currentTurn);
+		if(getControlRound().equals(getPlayers().size()) && isLastRound()){
+			for(Player player: getPlayers()){
+				player.setCurrentState(new Logued());
+				//Informar de final de partida, tablero(sin turno) y ganador del juego.
+			}
+		}else{
+			if(getControlRound().equals(getPlayers().size())){
+				setRound(getRound() + 1);
+				setControlRound(0);
+				for(Row row: getRows()){
+					row.setFull(false);
+					row.setTaken(false);
+					row.getRow().clear();	//Borrar cartas de la lista.
+				}
+			}
+			if(currentPlayer.getRound() > getRound()){
+				currentTurn = (currentTurn + 1) % players.size();
+				currentPlayer = players.get(currentTurn);
+				currentPlayer.setCurrentState(new Turn());
+				
+			}else{
+				State<?> nextState = new Turn();
+				currentPlayer.setCurrentState(nextState);	
+			}
+		}
+		
+	}
+	
+	public List<Row> getRows() {
+		return rows;
+	}
+
+	public Integer getControlRound() {
+		return controlRound;
+	}
+
+	public void setControlRound(Integer count) {
+		this.controlRound = count;
+	}
+
+	public void setCurrentCard(Card currentCard) {
+		this.currentCard = currentCard;
+	}
+
+	public List<Player> getPlayers(){
+		return players;
+	}
+	public Player getWinner(){
+		Integer score = 0;
+		Player winner = null;
+		for(Player player: getPlayers()){
+			if(player.getScore() > score){
+				score = player.getScore();
+				winner = player;
+			}
+		}
+		return winner;
+	}
+
+	public Integer getRound() {
+		return round;
+	}
+
+	public void setRound(Integer round) {
+		this.round = round;
+	}
+	
+	public void setPlayers(List<Player> players) {
+		this.players = players;
+	}
+
+	public void setCurrentTurn(Integer currentTurn) {
+		this.currentTurn = currentTurn;
+	}
+	
+	
+}

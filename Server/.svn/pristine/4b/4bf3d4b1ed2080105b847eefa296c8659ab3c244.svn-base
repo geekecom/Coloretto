@@ -1,0 +1,29 @@
+package coloretto.commands;
+
+import java.util.List;
+
+import coloretto.player.Lobby;
+import coloretto.server.ClientConnection;
+
+public class ShowGamesCommand extends Command{
+	
+	public ShowGamesCommand(String command, ClientConnection cc) {
+		super(command, cc);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String execute() {
+		List<Lobby> lobbys = cc.getServer().getLobbys();
+		String res = "Mesas: ";
+		if(lobbys.isEmpty()){
+			res = "No hay mesas actualmente";
+		}
+		for(Lobby lobby:lobbys){
+			res =  res.concat("\n" + lobby.toString());
+		}
+		// TODO Auto-generated method stub
+		return res;
+	}
+
+}

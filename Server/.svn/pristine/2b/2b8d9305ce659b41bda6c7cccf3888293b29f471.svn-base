@@ -1,0 +1,78 @@
+package coloretto.player;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Game {
+
+	public static Integer gamesID = 0;
+	public Integer gameID;
+	public Integer round;
+	public List<Player> players;
+	public List<Card> row1;
+	public List<Card> row2;
+	public List<Card> row3;
+	public PackOfCards cards;
+	public Integer currentTurn;
+	public Player currentPlayer;
+	public boolean started;
+
+	public Game(Integer num_player) {
+		this.round = 1;
+		gameID = gamesID;
+		Game.gamesID++;
+		players = new ArrayList<Player>();
+
+		if (num_player == 2) {
+			row1 = new ArrayList<Card>(1);
+			row2 = new ArrayList<Card>(2);
+			row3 = new ArrayList<Card>(3);
+		} else {
+			row1 = new ArrayList<Card>(3);
+			row1 = new ArrayList<Card>(3);
+			row1 = new ArrayList<Card>(3);
+		}
+		started = false;
+		// Player player1 = new Player();
+		// player1.cards.add(Card.COLOR.valueOf("GREEN"));
+	}
+
+	public void setStarted(boolean started) {
+		this.started = started;
+	}
+
+	public void addPlayer(Player currentPlayer) {
+		players.add(currentPlayer);
+	}
+
+	public void removePlayer(Player currentPlayer) {
+		players.remove(currentPlayer);
+	}
+
+	public Integer getGameID() {
+		return gameID;
+	}
+
+	public String toString() {
+		return "Juego: " + getGameID().toString() + ". Jugadores: "
+				+ players.toString() + ". Iniciada: " + started;
+	}
+
+	public void startGame() {
+		cards = new PackOfCards(players.size());
+		Collections.shuffle(players);
+		this.currentTurn = 0;
+		this.round = 0;
+		this.started = true;
+	}
+
+	public void nextTurn() {
+		currentPlayer = players.get(currentTurn);
+		currentTurn = (currentTurn + 1) % players.size();
+	}
+	
+	public List<Player> getPlayers(){
+		return players;
+	}
+}

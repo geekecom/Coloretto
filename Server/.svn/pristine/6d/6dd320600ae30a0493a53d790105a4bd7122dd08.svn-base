@@ -1,0 +1,19 @@
+package coloretto.player;
+
+import coloretto.states.TurnPutCommandFactory;
+
+public class TurnPut extends State<TurnPutCommandFactory> {
+
+	@Override
+	public TurnPutCommandFactory getFactory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String help() {
+		String res = "Comandos disponibles: PUT";
+		return res;	
+	}
+
+}

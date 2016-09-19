@@ -1,0 +1,13 @@
+package coloretto.player;
+
+public class Anonymous implements IState {
+
+	@Override
+	public String help() {
+		String res = null;
+		res = "Comandos disponibles: LOGIN";
+		return res;
+	}
+	
+
+}

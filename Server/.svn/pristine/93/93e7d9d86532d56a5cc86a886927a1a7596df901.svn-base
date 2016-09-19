@@ -1,0 +1,41 @@
+package coloretto.commands;
+
+import coloretto.player.Game;
+import coloretto.player.Player;
+import coloretto.player.WaitTurn;
+import coloretto.server.ClientConnection;
+
+public class StartGameCommand extends Command{
+	
+	public StartGameCommand(String command, ClientConnection cc){
+		super(command, cc);
+	}
+	
+	public String execute(){
+		boolean start = true;
+		String res;
+		Game currentGame = cc.getPlayer().getCurrentGame();
+		cc.getPlayer().setStart(true);
+		cc.getPlayer().setCurrentState(new WaitTurn());
+		
+		if(!(currentGame.getPlayers().size() < 2)){
+			for(Player player : currentGame.getPlayers()){
+				if(!player.isStart()){
+					start = false;
+					break;
+				}
+			}
+			if(start){
+				cc.getPlayer().getCurrentGame().startGame();
+				res = "Partida iniciada";
+			} else{
+				res = "Esperando confirmación de todo los jugadores";
+			}
+		}else{
+			res = "Debe esperar que haya jugadores suficientes";
+		}
+		return res;
+	}
+}
+
+

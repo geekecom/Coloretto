@@ -1,0 +1,26 @@
+package coloretto.commands;
+
+import java.util.List;
+import coloretto.player.Game;
+import coloretto.server.ClientConnection;
+import coloretto.server.GameServer;
+
+public class ShowGamesCommand extends Command{
+	
+	public ShowGamesCommand(String command, ClientConnection cc) {
+		super(command, cc);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String execute() {
+		List<Game> games = GameServer.getGames();
+		String res = "";
+		for(Game game:games){
+			res += game.toString() + "\n";
+		}
+		// TODO Auto-generated method stub
+		return res;
+	}
+
+}

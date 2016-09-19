@@ -1,0 +1,16 @@
+package coloretto.commands;
+
+import coloretto.server.ClientConnection;
+
+public class LogoutCommand extends Command{
+
+	public LogoutCommand(String command, ClientConnection cc) {
+		super(command, cc);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public String execute(){
+		cc.close();
+		return  "Usuario desconectado correctamente";
+	}
+}

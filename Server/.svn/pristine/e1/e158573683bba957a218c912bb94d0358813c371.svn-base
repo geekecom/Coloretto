@@ -1,0 +1,15 @@
+package coloretto.commands;
+
+public class ErrorCommand extends Command {
+	public String message;
+	
+	public ErrorCommand (String message){
+		
+		super (message, null);
+	}
+	@Override
+	public String execute() {
+		return message;
+	}
+
+}

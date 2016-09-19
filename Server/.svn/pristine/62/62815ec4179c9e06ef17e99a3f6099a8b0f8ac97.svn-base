@@ -1,0 +1,66 @@
+package commands;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import coloretto.commands.TakeARowCommand;
+import coloretto.player.Card;
+import coloretto.player.E_Card;
+import coloretto.player.Game;
+import coloretto.player.Player;
+import coloretto.player.Row;
+import coloretto.server.ClientConnection;
+
+public class TestTakeARow {
+	private TakeARowCommand take;
+	private String command;
+	private ClientConnection cc;
+	private List<Player> players;
+	private Row row;
+
+	@Before
+	public void setUp() throws Exception {
+			
+		players = new ArrayList<Player>();
+		players.add(new Player("Lorenzo"));
+		players.add(new Player("Andrés"));
+		players.add(new Player("Miguel Ángel"));
+		players.add(new Player("Antonio")); 
+		
+		row = new Row(3);
+		row.setFull(true);
+		row.getRow().add(new Card(E_Card.BLUE));
+		row.getRow().add(new Card(E_Card.GREEN));
+		row.getRow().add(new Card(E_Card.PINK));
+	}
+	
+	@Test
+	public void test() {
+		cc = new ClientConnection("Antonio");
+		cc.getPlayer().setCurrenGame(new Game(4));
+		cc.getPlayer().getCurrentGame().setPlayers(players);
+		cc.getPlayer().getCurrentGame().rows.set(3, row);
+		cc.getPlayer().getCurrentGame().setCurrentTurn(3);
+		command = "Take 2";
+		take = new TakeARowCommand(command, cc);
+		assertEquals("No se puede coger esta fila", take.execute());
+	}
+		
+	@Test
+	public void testRowSeleted() {
+		cc = new ClientConnection("Antonio");
+		cc.getPlayer().setCurrenGame(new Game(4));
+		cc.getPlayer().getCurrentGame().setPlayers(players);
+		cc.getPlayer().getCurrentGame().rows.set(3, row);
+		cc.getPlayer().getCurrentGame().setCurrentTurn(3);
+		command = "Take 3";
+		take = new TakeARowCommand(command, cc);
+		assertEquals("Has seleccionado la fila 3", take.execute());
+	}
+
+}

@@ -1,0 +1,24 @@
+package coloretto.player;
+
+import coloretto.states.TurnCommandFactory;
+
+public class Turn extends State<TurnCommandFactory>{
+	
+	private TurnCommandFactory factory ;
+	
+	public Turn(){
+		factory = new TurnCommandFactory();
+	}
+
+	@Override
+	public TurnCommandFactory getFactory() {
+		return factory;
+	}
+
+	@Override
+	public String help() {
+		String res = "Comandos disponibles: LEAVE, TAKE, DRAW";
+		return res;
+	}
+
+}

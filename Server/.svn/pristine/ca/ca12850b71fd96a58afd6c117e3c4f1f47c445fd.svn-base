@@ -1,0 +1,6 @@
+package coloretto.player;
+
+public interface IState {
+	public String help();
+
+}

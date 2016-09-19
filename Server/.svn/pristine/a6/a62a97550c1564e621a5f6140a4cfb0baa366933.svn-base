@@ -1,0 +1,116 @@
+package coloretto.server;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import coloretto.player.Game;
+import coloretto.player.Player;
+
+public class GameServer {
+	private static ServerSocket ss;
+	private static Set<ClientConnection> connections;
+	private static final int port = 6000;
+	private static List<Game> games;
+	private static List<Player> players;
+
+	public GameServer() {
+		connections = new HashSet<ClientConnection>();
+		players = new ArrayList<Player>();
+		games = new ArrayList<Game>();
+	}
+
+	public boolean initServer() {
+		boolean res = true;
+		try {
+			ss = new ServerSocket(port);
+			System.out.println("Servidor abierto en puerto " + port);
+			while (true) {
+				Socket clientSocket = ss.accept();
+				createClientConnection(clientSocket);
+			}
+		} catch (IOException e) {
+			res = false;
+		}
+		return res;
+	}
+
+	private void createClientConnection(Socket clientSocket) {
+		ClientConnection cc = new ClientConnection(clientSocket, this,
+				"anonymous");
+		connections.add(cc);
+		new Thread(cc).start();
+		Message message = new Message("Server", cc.getIp() + " conectado");
+		sendChatMessage(cc, message);
+	}
+
+	public void sendChatMessage(ClientConnection source, Message message) {
+		for (ClientConnection dest : connections) {
+			if (dest != source)
+				dest.sendMessage(message);
+		}
+	}
+
+	public void disconnectClient(ClientConnection clientConnection) {
+		connections.remove(clientConnection);
+		System.out.println("Cliente " + clientConnection.getIp()
+				+ " desconectado");
+		Message message = new Message("Server", clientConnection.getIp()
+				+ " desconectado");
+		sendChatMessage(null, message);
+	}
+
+	public void closeServer() {
+		for (ClientConnection clients : connections) {
+			clients.close();
+		}
+		connections.clear();
+	}
+
+	public static List<Game> getGames() {
+		return games;
+	}
+
+	public static List<Player> getPlayers() {
+		return players;
+	}
+
+	// @Override
+	public static void createGame(Integer num_players) {
+		games.add(new Game(num_players));
+	}
+
+	// @Override
+	public void leaveGame(Integer idGame, String idPlayer) {
+		for (Game g : games) {
+			if (g.getGameID().equals(idGame)) {
+				for (Player p : g.getPlayers()) {
+					if (p.getPlayerID().equals(idPlayer)) {
+						g.removePlayer(p);
+						break;
+					}
+				}
+				//break;
+			}
+		}
+	}
+
+	// @Override
+	public void joinGame(Integer idGame, String idPlayer) {
+		for (Game g : games) {
+			if (g.getGameID().equals(idGame)) {
+				for (Player p : players) {
+					if (p.getPlayerID().equals(idPlayer)) {
+						g.addPlayer(p);
+						break;
+					}
+				}
+				break;
+			}
+		}
+	}
+
+}

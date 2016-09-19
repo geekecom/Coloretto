@@ -1,0 +1,12 @@
+package coloretto.player;
+
+public class Logued implements IState{
+
+	@Override
+	public String help() {
+		String res = null;
+		res = "Comandos disponibles: LOGOUT, CREATE, SHOW";
+		return res;		
+	}
+
+}

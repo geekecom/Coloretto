@@ -1,0 +1,5 @@
+package coloretto.server;
+
+public interface IGameServer {
+	void createGame(Integer num_players);
+}

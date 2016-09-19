@@ -1,0 +1,32 @@
+package coloretto.commands;
+
+import java.util.StringTokenizer;
+
+import coloretto.server.ClientConnection;
+
+public class CommandFactory {
+
+	public static Command createCommand(String command, ClientConnection cc) {
+		Command res = new ErrorCommand("Error en el procesamiento");
+		StringTokenizer tokenizer = new StringTokenizer(command, " ");
+		if (tokenizer.hasMoreTokens()) {
+			String keyword = tokenizer.nextToken();
+			if (keyword.equalsIgnoreCase("CREATE")) {
+				res = new CreateGameCommand(command, cc);
+			} else if (keyword.equalsIgnoreCase("JOIN")) {
+				res = new JoinPlayerCommand(command, cc);
+			} else if(keyword.equalsIgnoreCase("SHOW")){
+				res = new ShowGamesCommand(command, cc);
+			} else if(keyword.equalsIgnoreCase("LEAVE")){
+				res = new LeaveGameCommand(command, cc);
+			} else if(keyword.equalsIgnoreCase("LOGIN")){
+				res = new LoginCommand(command, cc);
+			} else if(keyword.equalsIgnoreCase("HELP")){
+				res = new HelpCommand(command, cc);
+			}else {
+				res = new ErrorCommand("Palabra clave desconocida");
+			}
+		}
+		return res;
+	}
+}

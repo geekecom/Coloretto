@@ -1,0 +1,79 @@
+package commands;
+
+import static org.junit.Assert.*;
+
+
+import org.junit.Before;
+import org.junit.Test;
+
+import coloretto.commands.StartGameCommand;
+
+import coloretto.player.Lobby;
+import coloretto.player.Player;
+import coloretto.server.ClientConnection;
+
+public class TestStartGame {
+	private StartGameCommand start;
+	private String command;
+	private ClientConnection cc;
+	
+	@Before
+	public void setUp() throws Exception {
+		
+	}
+
+	@Test
+	public void test() {
+		Player player1 = new PlayerMock("Lorenzo");
+		Player player2 = new PlayerMock("Andrés");
+		Player player3 = new PlayerMock("Miguel Ángel");
+		Player player4 = new PlayerMock("Antonio");
+	//	for (int i=0; i<4; i++){
+	//		players.get(i).setStart(false);
+		cc = new ClientConnectionMock("Lorenzo");
+		cc.getPlayer().setCurrentLobby(new Lobby());
+		cc.getPlayer().getCurrentLobby().getPlayers().add(player1);
+		cc.getPlayer().getCurrentLobby().getPlayers().add(player2);
+		cc.getPlayer().getCurrentLobby().getPlayers().add(player3);
+		cc.getPlayer().getCurrentLobby().getPlayers().add(player4);
+		
+	//	}
+		command = "START";
+		start = new StartGameCommand(command, cc);
+		assertEquals("Esperando confirmación de todos los jugadores", start.execute());
+	}
+	
+	@Test
+	public void testStart() {
+		Player player1 = new PlayerMock("Lorenzo");
+		Player player2 = new PlayerMock("Andrés");
+		Player player3 = new PlayerMock("Miguel Ángel");
+		Player player4 = new PlayerMock("Antonio");
+		player1.setStart(true);
+		player2.setStart(true);
+		player3.setStart(true);
+		player4.setStart(true);
+		cc = new ClientConnectionMock("Andrés");
+		cc.getPlayer().setCurrentLobby(new Lobby());
+		cc.getPlayer().getCurrentLobby().getPlayers().add(player1);
+		cc.getPlayer().getCurrentLobby().getPlayers().add(player2);
+		cc.getPlayer().getCurrentLobby().getPlayers().add(player3);
+		cc.getPlayer().getCurrentLobby().getPlayers().add(player4);
+		
+		command = "START";
+		start = new StartGameCommand(command, cc);
+		assertEquals("Partida iniciada", start.execute());
+	}
+	
+	@Test
+	public void testNoPlayers() {
+		Player player1 = new PlayerMock("Andrés");
+		cc = new ClientConnectionMock("Andrés");
+		cc.getPlayer().setCurrentLobby(new Lobby());
+		cc.getPlayer().getCurrentLobby().getPlayers().add(player1);
+		
+		command = "START";
+		start = new StartGameCommand(command, cc);
+		assertEquals("Debe esperar que haya jugadores suficientes", start.execute());
+	}
+}

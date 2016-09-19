@@ -1,0 +1,33 @@
+package commands;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import coloretto.commands.JoinGameCommand;
+import coloretto.server.ClientConnection;
+
+public class TestJoin {
+	
+	private JoinGameCommand join;
+	private String command;
+	private ClientConnection cc;
+
+
+	@Before
+	public void setUp() throws Exception {
+		cc = new ClientConnectionMock("pimbar");
+		command = "JOIN 0";
+		join = new JoinGameCommand(command, cc);
+		
+	}
+
+	@Test
+	public void test() {
+		assertEquals("Usuario pimbar unido a partida 0 correctamente.", join.execute());
+		
+	}
+
+}
+

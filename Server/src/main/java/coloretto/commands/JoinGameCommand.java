@@ -1,0 +1,59 @@
+package coloretto.commands;
+
+import coloretto.player.Lobby;
+import coloretto.player.Player;
+import coloretto.player.WaitingGame;
+import coloretto.server.ClientConnection;
+
+public class JoinGameCommand extends Command {
+
+	Integer lobbyID;
+
+	public JoinGameCommand(String command, ClientConnection cc) {
+		super(command, cc);
+	}
+
+	@Override
+	public String execute() {
+		
+		
+		String info = null;
+		Boolean finded = false;
+		Player player = cc.getPlayer();
+		
+		String[] parts = command.split(" ");
+		try {
+			if (parts.length == 2) {
+				lobbyID = Integer.valueOf(parts[1]);
+			} else {
+				info = "Se esperaban 2 parámetros";
+			}
+		} catch (NumberFormatException exc) {
+			info = "Clave no numérica";
+		}
+		
+		for (Lobby currentLobby : cc.getServer().getLobbys()) {
+			if (currentLobby.getLobbyID().equals(lobbyID) && currentLobby.getPlayers().size() < 5){
+				
+			
+				currentLobby.addPlayer(player);
+				player.setCurrentState(new WaitingGame());
+				player.setCurrentLobby(currentLobby);
+				finded = true;
+				String message = "Usuario " + player.getPlayerID() + " unido a mesa " + lobbyID;
+				cc.getServer().sendMessageToLobbyPlayers(currentLobby, message);
+				
+				
+				info = "Unido correctamente a mesa " + currentLobby.getLobbyID();
+				break;
+			}
+		}
+		if(!finded && !("Se esperaban 2 parámetros").equals(info) && !("Clave no numérica").equals(info)){
+			info = "Esta mesa no existe o está completa. Escriba SHOW para ver mesas creadas.";
+		}
+		return info;
+	}
+
+	
+
+}

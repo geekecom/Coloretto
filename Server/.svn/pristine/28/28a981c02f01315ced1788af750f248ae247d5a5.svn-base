@@ -1,0 +1,50 @@
+package coloretto.states;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+import coloretto.commands.Command;
+import coloretto.commands.CommandFactory;
+import coloretto.commands.CreateGameCommand;
+import coloretto.commands.ErrorCommand;
+import coloretto.commands.HelpCommand;
+import coloretto.commands.JoinGameCommand;
+import coloretto.commands.LogoutCommand;
+import coloretto.commands.ShowGamesCommand;
+import coloretto.server.ClientConnection;
+
+public class LoguedCommandFactory extends CommandFactory {
+	protected Map<String, Class<?>> allowedCommands = new HashMap<String, Class<?>>();
+
+	public LoguedCommandFactory() {
+		allowedCommands.put("HELP", HelpCommand.class);
+		allowedCommands.put("EXIT", LogoutCommand.class);
+		allowedCommands.put("CREATE", CreateGameCommand.class);
+		allowedCommands.put("SHOW", ShowGamesCommand.class);
+		allowedCommands.put("JOIN", JoinGameCommand.class);
+	}
+
+	public Command createCommand(String command, ClientConnection cc) {
+		Command res = new ErrorCommand("Error en el procesamiento", cc);
+		StringTokenizer tokenizer = new StringTokenizer(command, " ");
+		if (tokenizer.hasMoreTokens()) {
+			String keyword = tokenizer.nextToken().toUpperCase();
+			if (allowedCommands.containsKey(keyword)) {
+					try {
+						res = (Command) (allowedCommands.get(keyword)
+								.getConstructor(String.class,
+										ClientConnection.class).newInstance(
+								command, cc));
+					} catch (ReflectiveOperationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+			} else {
+				res = new ErrorCommand("Comando no permitido", cc);
+			}
+		}
+		return res;
+	}
+
+}

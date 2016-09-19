@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CommitComments>	<CommitComment>Corrección de algunos errores sonar
+</CommitComment>
+	<CommitComment>Correccion fallo Sonar</CommitComment>
+	<CommitComment>Corrección fallo Sonar</CommitComment>
+	<CommitComment>Prueba unitaria comando CreateGame</CommitComment>
+	<CommitComment>Pruebas unitarias comandos LeaveGameCommand y StartGameCommand</CommitComment>
+	<CommitComment>Clases para realizar las pruebas unitarias</CommitComment>
+	<CommitComment>Corrección pruebas unitarias comando ShowGamesCommand </CommitComment>
+	<CommitComment>Corrección prueba unitaria JoinCommand</CommitComment>
+	<CommitComment>Corrección pruebas unitarias comandos DrawACard, PutACard, TakeARow</CommitComment>
+	<CommitComment>Nueva corrección test comando HelpCommand</CommitComment>
+</CommitComments>

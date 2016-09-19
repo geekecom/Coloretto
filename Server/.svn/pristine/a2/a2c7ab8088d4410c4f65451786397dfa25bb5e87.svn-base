@@ -1,0 +1,83 @@
+package coloretto.server;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.List;
+
+import coloretto.commands.Command;
+import coloretto.commands.CommandFactory;
+import coloretto.player.Game;
+import coloretto.player.Player;
+
+public class ClientConnection implements Runnable {
+	Socket clientSocket;
+	String ipAddress;
+	DataInputStream input;
+	DataOutputStream output;
+	GameServer server;
+	Player player;
+	
+	public ClientConnection(Socket clientSocket, GameServer server, String playerID) {
+		this.clientSocket = clientSocket;
+		this.server = server;
+		this.ipAddress = clientSocket.getInetAddress().getHostAddress();
+		this.player = new Player(playerID);
+	}
+	
+	public void loginPlayer(String playerID){
+		this.player.setPlayerID(playerID);
+		GameServer.getPlayers().add(this.player);
+	}
+	
+	public Player getPlayer(){
+		return player;
+	}
+	
+	public void run() {
+		try{
+			input = new DataInputStream(clientSocket.getInputStream());
+			output = new DataOutputStream(clientSocket.getOutputStream());
+			System.out.println("Nueva conexión desde " + ipAddress);
+			inputProcessing();
+		} catch (Exception exception) {
+		}
+		server.disconnectClient(this);
+	}
+	
+	private void inputProcessing() throws IOException {
+		while (clientSocket.isConnected()) {
+			String message = input.readUTF();
+			Command dbCommand = ((CommandFactory) player.getCurrentState().getFactory()).createCommand(message, this);
+			String info = dbCommand.execute();
+			Message msg = new Message(ipAddress,info);
+			sendMessage(msg);
+		}
+	}
+
+	public void sendMessage(Message message) {
+		if (clientSocket.isConnected()) {
+			try {
+				output.writeUTF(message.toString());
+			} catch (IOException e) {}
+		}
+	}
+	
+	public boolean close () {
+		boolean res = true;
+		try {
+			clientSocket.close();
+		} catch (IOException e) {
+			res = false;
+		}
+		return res;
+	}
+	public String getIp() {
+		return ipAddress;
+	}
+	public List<Game>getGames() {
+		return GameServer.getGames();
+	}
+
+}

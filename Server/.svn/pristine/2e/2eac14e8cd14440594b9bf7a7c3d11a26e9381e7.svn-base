@@ -1,0 +1,40 @@
+package commands;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import coloretto.player.Game;
+import coloretto.player.Player;
+import coloretto.server.GameServer;
+
+public class GameServerMock extends GameServer{
+	
+	List<Player> players;
+	List<Game> games;
+	
+	public GameServerMock(){
+		
+		Game game = new Game(4);
+		game.players.add(new Player("Lorenzo"));
+		game.players.add(new Player("Andrés"));
+		game.players.add(new Player("Miguel Ángel"));
+		game.players.add(new Player("Antonio"));
+		
+		games = new ArrayList<Game>();
+		games.add(game);
+	}
+	
+	public List<Game> getGames() {
+		return games;
+	}
+	
+	public List<Player> players(){
+		return players; 
+		
+	}
+	
+	public void createGame(Integer num_players) {
+		games.add(new Game(num_players));
+	}
+
+}

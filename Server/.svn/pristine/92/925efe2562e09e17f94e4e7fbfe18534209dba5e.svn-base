@@ -1,0 +1,23 @@
+package coloretto.player;
+
+import coloretto.states.LoguedCommandFactory;
+
+public class Logued extends State<LoguedCommandFactory>{
+	
+	private LoguedCommandFactory factory ;
+	
+	public Logued(){
+		factory = new LoguedCommandFactory();
+	}
+
+	public String help() {
+		String res = "Comandos disponibles: LOGOUT, CREATE, SHOW, JOIN";
+		return res;		
+	}
+
+	public LoguedCommandFactory getFactory() {
+		// TODO Auto-generated method stub
+		return factory;
+	}
+
+}

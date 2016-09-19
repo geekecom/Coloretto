@@ -1,0 +1,8 @@
+package coloretto.commands;
+
+import coloretto.server.ClientConnection;
+
+public abstract class CommandFactory {
+
+	public abstract Command createCommand(String command, ClientConnection cc);
+}

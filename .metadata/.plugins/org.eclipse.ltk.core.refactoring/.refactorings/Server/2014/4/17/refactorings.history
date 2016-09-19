@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring clone="false" comment="Infer generic type arguments on &apos;Server&apos;&#x0D;&#x0A;- Original project: &apos;Server&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     coloretto.states.WaitTurnCommandFactory.java&#x0D;&#x0A;- Leave unconstrained type arguments raw" description="Infer generic type arguments" element1="/src\/main\/java&lt;coloretto.states{WaitTurnCommandFactory.java" flags="6" id="org.eclipse.jdt.ui.infer.typearguments" leave="true" stamp="1398368080967" version="1.0"/>
+</session>

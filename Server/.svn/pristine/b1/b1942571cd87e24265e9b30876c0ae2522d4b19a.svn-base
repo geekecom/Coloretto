@@ -1,0 +1,6 @@
+package coloretto.server;
+
+public class ErrorInfo {
+	private Integer errorCode;
+	private String errorInfo;
+}

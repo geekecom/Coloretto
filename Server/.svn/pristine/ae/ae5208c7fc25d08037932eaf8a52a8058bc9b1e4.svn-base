@@ -1,0 +1,24 @@
+package coloretto.player;
+
+import coloretto.states.WaitTurnCommandFactory;
+
+public class WaitTurn extends State<WaitTurnCommandFactory>{
+	
+	private WaitTurnCommandFactory factory ;
+	
+	public WaitTurn(){
+		factory = new WaitTurnCommandFactory();
+	}
+
+
+	@Override
+	public WaitTurnCommandFactory getFactory() {
+		return factory;
+	}
+
+	@Override
+	public String help() {
+		String res = "Comandos disponibles: LEAVE, SHOW";
+		return res;	
+	}
+}

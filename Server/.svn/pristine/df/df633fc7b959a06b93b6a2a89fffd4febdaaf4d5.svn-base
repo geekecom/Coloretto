@@ -1,0 +1,14 @@
+package commands;
+
+import coloretto.player.Card;
+import coloretto.player.E_Card;
+import coloretto.player.PackOfCards;
+
+public class PackOfCardsMock extends PackOfCards {
+
+	public PackOfCardsMock(Integer num_players) {
+		super(num_players);
+		this.getCards().add(new Card(E_Card.BLUE));
+	}
+
+}

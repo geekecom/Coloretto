@@ -1,0 +1,84 @@
+package commands;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import coloretto.commands.HelpCommand;
+import coloretto.player.Logued;
+import coloretto.player.Turn;
+import coloretto.player.TurnPut;
+import coloretto.player.WaitTurn;
+import coloretto.player.WaitingGame;
+import coloretto.server.ClientConnection;
+
+public class TestHelp {
+	
+	private HelpCommand help;
+	private String command;
+	private ClientConnection cc;
+	private Logued logued;
+	private Turn turn;
+	private TurnPut turnPut;
+	private WaitingGame waitingGame;
+	private WaitTurn waitTurn;
+	
+	
+	@Test
+	public void testAnonymous() {
+		command = "HELP";
+		cc = new ClientConnection("pimbar");
+		help = new HelpCommand(command, cc);
+		assertEquals("Comandos disponibles: LOGIN", help.execute());
+	}
+	
+	@Test
+	public void testLogued() {
+		command = "HELP";
+		cc = new ClientConnection("Andrés");
+		logued = new Logued();
+		cc.getPlayer().setCurrentState(logued);
+		help = new HelpCommand(command, cc);
+		assertEquals("Comandos disponibles: LOGOUT, CREATE, SHOW, JOIN", help.execute());
+	}
+	
+	@Test
+	public void testTurn() {
+		command = "HELP";
+		cc = new ClientConnection("Miguel Ángel");
+		turn = new Turn();
+		cc.getPlayer().setCurrentState(turn);
+		help = new HelpCommand(command, cc);
+		assertEquals("Comandos disponibles: LEAVE, TAKE, DRAW", help.execute());
+	}
+
+	@Test
+	public void testTurnPut() {
+		command = "HELP";
+		cc = new ClientConnection("Lorenzo");
+		turnPut = new TurnPut();
+		cc.getPlayer().setCurrentState(turnPut);
+		help = new HelpCommand(command, cc);
+		assertEquals("Comandos disponibles: PUT", help.execute());
+	}
+	
+	@Test
+	public void testWaitingGame() {
+		command = "HELP";
+		cc = new ClientConnection("Antonio");
+		waitingGame = new WaitingGame();
+		cc.getPlayer().setCurrentState(waitingGame);
+		help = new HelpCommand(command, cc);
+		assertEquals("Comandos disponibles: LEAVE, SHOW, START", help.execute());
+	}
+	
+	@Test
+	public void testWaitTurn() {
+		command = "HELP";
+		cc = new ClientConnection("Andrés");
+		waitTurn = new WaitTurn();
+		cc.getPlayer().setCurrentState(waitTurn);
+		help = new HelpCommand(command, cc);
+		assertEquals("Comandos disponibles: LEAVE, SHOW", help.execute());
+	}
+}

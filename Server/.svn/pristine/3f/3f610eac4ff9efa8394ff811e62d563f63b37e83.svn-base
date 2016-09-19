@@ -1,0 +1,25 @@
+
+
+import static org.junit.Assert.*;
+
+
+import org.junit.Before;
+import org.junit.Test;
+
+import coloretto.player.PackOfCards;
+
+public class TestPackOfCards {
+	
+	private PackOfCards packOfCards; 
+
+	@Before
+	public void setUp() throws Exception {
+		packOfCards = new PackOfCards(3);
+	}
+
+	@Test
+	public void test() {
+		assertEquals(packOfCards.getCards().get(packOfCards.getCards().size() - 1), packOfCards.draw());
+	}
+
+}

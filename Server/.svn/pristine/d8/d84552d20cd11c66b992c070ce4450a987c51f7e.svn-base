@@ -1,0 +1,156 @@
+package coloretto.server;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.swing.event.ListSelectionEvent;
+
+import coloretto.player.Game;
+import coloretto.player.Player;
+
+public class GameServer {
+	private static ServerSocket ss;
+	private static Set<ClientConnection> connections;
+	private static final int port = 6000;
+	private static List<Game> games;
+	private static List<Player> players;
+	
+	public GameServer(){
+		connections = new HashSet<ClientConnection>();
+		games = new ArrayList<Game>();
+		players = new ArrayList<Player>();
+	}
+	
+	public boolean initServer() {
+		boolean res = true;
+		try {
+			ss = new ServerSocket(port);
+			System.out.println("Servidor abierto en puerto " + port);
+			while (true) {
+				Socket clientSocket = ss.accept();
+				createClientConnection(clientSocket);
+			}
+		} catch (IOException e) {res = false;}
+		return res;
+	}
+	
+	private void createClientConnection(Socket clientSocket) {
+		ClientConnection cc = new ClientConnection(clientSocket, this);
+		connections.add(cc);
+		new Thread(cc).start();
+		Message message = new Message("Server",cc.getIp() + " conectado");
+		sendChatMessage(cc,message);
+	}
+	
+	public void sendChatMessage (ClientConnection source, Message message) {
+		for (ClientConnection dest: connections) {
+			if (dest != source)
+				dest.sendMessage(message);
+		}
+	}
+	
+	public void disconnectClient(ClientConnection clientConnection) {
+		connections.remove(clientConnection);
+		System.out.println("Cliente " + clientConnection.getIp() + " desconectado");
+		Message message = new Message("Server",clientConnection.getIp() + " desconectado");
+		sendChatMessage(null,message);
+	}
+	
+	public void closeServer() {
+		for (ClientConnection clients: connections) {
+			clients.close();
+		}
+		connections.clear();
+	}
+	
+	public static List<Game> getGames(){
+		return games;
+	}
+	
+	public static List<Player> getPlayers(){
+		return players;
+	}
+	
+	// @Override
+	public static void createGame(Integer num_players) {
+		games.add(new Game(num_players));
+	}
+
+	// @Override
+	public ErrorInfo leaveGame(Integer idGame, String idPlayer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	// @Override
+	public ErrorInfo joinGame(Integer idGame, String idPlayer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
+/*public class DBServer {
+private ServerSocket ss;
+private Set<ClientConnection> connections;
+private static final int port = 6000; 
+private Map<Integer,String> dbMap;
+
+public DBServer () {
+	connections = new HashSet<ClientConnection>();
+	dbMap = new HashMap<Integer,String>();
+}
+
+public boolean initServer() {
+	boolean res = true;
+	try {
+		ss = new ServerSocket(port);
+		System.out.println("Servidor de chat abierto en puerto " + port);
+		while (true) {
+			Socket clientSocket = ss.accept();
+			createClientConnection(clientSocket);
+		}
+	} catch (IOException e) {res = false;}
+	return res;
+}
+
+
+private void createClientConnection(Socket clientSocket) {
+	ClientConnection cc = new ClientConnection(clientSocket, this);
+	connections.add(cc);
+	new Thread(cc).start();
+	Message message = new Message("Server",cc.getIp() + " conectado");
+	sendChatMessage(cc,message);
+}
+
+public void sendChatMessage (ClientConnection source, Message message) {
+	for (ClientConnection dest: connections) {
+		if (dest != source)
+			dest.sendMessage(message);
+	}
+}
+
+public void disconnectClient(ClientConnection clientConnection) {
+	connections.remove(clientConnection);
+	System.out.println("Cliente " + clientConnection.getIp() + " desconectado");
+	Message message = new Message("Server",clientConnection.getIp() + " desconectado");
+	sendChatMessage(null,message);
+}
+
+public void closeServer() {
+	for (ClientConnection clients: connections) {
+		clients.close();
+	}
+	connections.clear();
+}
+
+public Map<Integer,String> getDB() {
+	return dbMap;
+}
+}*/
+

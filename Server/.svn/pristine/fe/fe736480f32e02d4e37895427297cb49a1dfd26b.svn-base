@@ -1,0 +1,50 @@
+package commands;
+
+import coloretto.player.Game;
+import coloretto.player.Logued;
+import coloretto.player.Player;
+import coloretto.player.Row;
+import coloretto.player.State;
+import coloretto.player.Turn;
+
+public class GameMock extends Game{
+
+	public GameMock(Player player1, Player player2, Player player3,
+			Player player4) {
+		super(player1, player2, player3, player4);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public void nextTurn() {
+
+		currentTurn = (currentTurn + 1) % players.size();
+		currentPlayer = players.get(currentTurn);		
+
+		if (getControlRound().equals(getPlayers().size()) && isLastRound()) {
+			for (Player player : getPlayers()) {
+				player.setCurrentState(new Logued());
+				
+			}
+		} else {
+			if (getControlRound().equals(getPlayers().size())) {
+				setRound(getRound() + 1);
+				setControlRound(0);
+				for (Row row : getRows()) {
+					row.setFull(false);
+					row.setTaken(false);
+					row.getRow().clear(); // Borrar cartas de la lista.
+				}
+			}
+			if (currentPlayer.getRound() > getRound()) {
+				currentTurn = (currentTurn + 1) % players.size();
+				currentPlayer = players.get(currentTurn);
+				currentPlayer.setCurrentState(new Turn());
+
+			} else {
+				State<?> nextState1 = new Turn();
+				currentPlayer.setCurrentState(nextState1);
+			}
+		}
+	}
+}
+

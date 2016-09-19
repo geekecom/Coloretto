@@ -1,0 +1,7 @@
+package coloretto.server;
+
+public interface IGameServer {
+	void createGame(Integer num_players);
+	public ErrorInfo leaveGame(Integer idGame, Integer idPlayer);
+	public ErrorInfo joinGame(Integer idGame, Integer idPlayer);
+}

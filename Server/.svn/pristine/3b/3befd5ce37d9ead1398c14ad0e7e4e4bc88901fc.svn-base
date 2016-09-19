@@ -1,0 +1,123 @@
+package coloretto.player;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Player {
+	private int score;
+	public String playerID;
+	public  State<?> currentState;
+	public List<Card> cards;
+	public Game currentGame;
+	
+	
+	public Player (String playerID){
+		this.playerID = playerID;
+		cards = new ArrayList<Card>();
+		score = 0;
+		currentState = new Anonymous();
+		
+	}
+	
+	public State<?> getCurrentState() {
+		return currentState;
+	}
+
+	public void setCurrentState(State<?> currentState) {
+		this.currentState = currentState;
+	}
+
+	public List<Card> getCards(){
+		return cards;
+	}
+	
+	public String getPlayerID(){
+		return playerID;
+	}
+	
+	public void setPlayerID(String playerID) {
+		this.playerID = playerID;
+	}
+
+	
+	public int getScore(){
+		List<Integer> frequencys = new ArrayList<Integer>();
+
+		int blue = 0, brown = 0, gray = 0, green = 0, orange = 0;
+		int pink = 0, yellow = 0, plus2 = 0, joker = 0;
+		
+		for (Card c: cards) {
+					if (c.getType().equals(E_Card.BLUE)) blue++;
+			else 	if (c.getType().equals(E_Card.BROWN)) brown++;
+			else	if (c.getType().equals(E_Card.GRAY)) gray++;
+			else	if (c.getType().equals(E_Card.GREEN)) green++;
+			else	if (c.getType().equals(E_Card.ORANGE)) orange++;
+			else	if (c.getType().equals(E_Card.PINK)) pink++;
+			else	if (c.getType().equals(E_Card.YELLOW)) yellow++;
+			else	if (c.getType().equals(E_Card.PLUS_TWO)) plus2++;
+			else	if (c.getType().equals(E_Card.JOKER)) joker++;
+		}
+		
+		
+		frequencys.add(blue);
+		frequencys.add(brown);
+		frequencys.add(gray);
+		frequencys.add(green);
+		frequencys.add(orange);
+		frequencys.add(pink);
+		frequencys.add(yellow);
+		Collections.sort(frequencys, Collections.reverseOrder());
+		
+		for (int i=0; i<joker;i++){
+			if (frequencys.get(0) <= 5)
+				frequencys.set(0, (frequencys.get(0) + 1));
+			else if (frequencys.get(1) <= 5)
+				frequencys.set(1, (frequencys.get(1) + 1));
+			else frequencys.set(2, (frequencys.get(2) + 1));
+		}
+		for (int i=0; i<3;i++){
+			if (frequencys.get(i).equals(1))
+				score += 1;
+			if (frequencys.get(i).equals(2))
+				score += 3;
+			if (frequencys.get(i).equals(3))
+				score += 6;
+			if (frequencys.get(i).equals(4))
+				score += 10;
+			if (frequencys.get(i).equals(5))
+				score += 15;
+			if (frequencys.get(i) >= 6)
+				score += 21;
+		}
+		for (int i=3; i<7;i++){
+			if (frequencys.get(i).equals(1))
+				score -= 1;
+			if (frequencys.get(i).equals(2))
+				score -= 3;
+			if (frequencys.get(i).equals(3))
+				score -= 6;
+			if (frequencys.get(i).equals(4))
+				score -= 10;
+			if (frequencys.get(i).equals(5))
+				score -= 15;
+			if (frequencys.get(i) >= 6)
+				score -= 21;
+		}
+		score += 2 * plus2;
+		return score;
+	}
+	
+	public String toString(){
+		return playerID;
+	}
+	
+	public Game getCurrentGame(){
+		return currentGame;
+	}
+	
+	public void setCurrenGame(Game game){
+		this.currentGame = game;
+	}
+
+}

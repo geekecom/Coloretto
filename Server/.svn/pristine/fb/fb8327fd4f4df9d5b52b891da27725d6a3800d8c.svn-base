@@ -1,0 +1,161 @@
+package coloretto.player;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class PackOfCards {
+	
+	private List<Card> PackOfCards = new ArrayList<Card>();
+	
+	public PackOfCards(Player player1, Player player2){
+		for(int i=0; i<3; i++)
+			PackOfCards.add(new Card(E_Card.JOKER));    // Añadir todas las cartas
+		for (int i=0; i<10; i++)
+			PackOfCards.add(new Card(E_Card.PLUS_TWO));
+		for (int i=0; i<8; i++) {
+			PackOfCards.add(new Card(E_Card.BLUE));
+			PackOfCards.add(new Card(E_Card.BROWN));
+			PackOfCards.add(new Card(E_Card.GRAY));
+			PackOfCards.add(new Card(E_Card.GREEN));
+		}
+		for (int i=0; i<9; i++){	
+			PackOfCards.add(new Card(E_Card.ORANGE));
+		}	
+		Collections.shuffle(PackOfCards); 		//Baraja las cartas 
+        PackOfCards.add(14, new Card(E_Card.LAST_ROUND));	//Insertar carta de ultima ronda
+	}
+	
+	public PackOfCards(Player player1, Player player2, Player player3){
+		for(int i=0; i<3; i++)
+			PackOfCards.add(new Card(E_Card.JOKER));    
+		for (int i=0; i<10; i++)
+			PackOfCards.add(new Card(E_Card.PLUS_TWO));
+		for (int i=0; i<8; i++) {
+			PackOfCards.add(new Card(E_Card.BLUE));
+			PackOfCards.add(new Card(E_Card.BROWN));
+			PackOfCards.add(new Card(E_Card.GRAY));
+		}
+		for (int i=0; i<9; i++){
+			PackOfCards.add(new Card(E_Card.GREEN));
+			PackOfCards.add(new Card(E_Card.ORANGE));
+			PackOfCards.add(new Card(E_Card.PINK));
+			PackOfCards.add(new Card(E_Card.YELLOW));
+		}
+		Collections.shuffle(PackOfCards); 		
+        PackOfCards.add(14, new Card(E_Card.LAST_ROUND));
+	}
+	
+	public PackOfCards(Player player1, Player player2, Player player3, Player player4){
+		for(int i=0; i<3; i++)
+			PackOfCards.add(new Card(E_Card.JOKER));    
+		for (int i=0; i<10; i++)
+			PackOfCards.add(new Card(E_Card.PLUS_TWO));
+		for (int i=0; i<8; i++) {
+			PackOfCards.add(new Card(E_Card.BLUE));
+			PackOfCards.add(new Card(E_Card.BROWN));
+			PackOfCards.add(new Card(E_Card.GRAY));
+			PackOfCards.add(new Card(E_Card.GREEN));
+		}
+		for (int i=0; i<9; i++){
+			PackOfCards.add(new Card(E_Card.ORANGE));
+			PackOfCards.add(new Card(E_Card.PINK));
+			PackOfCards.add(new Card(E_Card.YELLOW));
+		}
+		Collections.shuffle(PackOfCards); 		
+        PackOfCards.add(14, new Card(E_Card.LAST_ROUND));
+	}
+	
+	public PackOfCards(Player player1, Player player2, Player player3, Player player4, Player player5){
+		for(int i=0; i<3; i++)
+			PackOfCards.add(new Card(E_Card.JOKER));    
+		for (int i=0; i<10; i++)
+			PackOfCards.add(new Card(E_Card.PLUS_TWO));
+		for (int i=0; i<8; i++) {
+			PackOfCards.add(new Card(E_Card.BLUE));
+			PackOfCards.add(new Card(E_Card.BROWN));
+			PackOfCards.add(new Card(E_Card.GRAY));
+			PackOfCards.add(new Card(E_Card.GREEN));
+			PackOfCards.add(new Card(E_Card.ORANGE));
+		}
+		for (int i=0; i<9; i++){
+			PackOfCards.add(new Card(E_Card.PINK));
+			PackOfCards.add(new Card(E_Card.YELLOW));
+		}
+		Collections.shuffle(PackOfCards); 		
+        PackOfCards.add(14, new Card(E_Card.LAST_ROUND));
+	}
+	
+	/*
+	public PackOfCards(Integer num_players){
+		PackOfCards = new ArrayList<Card>();
+		for(int i=0; i<3; i++)
+			PackOfCards.add(new Card(E_Card.JOKER));    // Añadir todas las cartas
+		for (int i=0; i<10; i++)
+			PackOfCards.add(new Card(E_Card.PLUS_TWO));
+		if (num_players.equals(2)){
+			for (int i=0; i<8; i++) {
+				PackOfCards.add(new Card(E_Card.BLUE));
+				PackOfCards.add(new Card(E_Card.BROWN));
+				PackOfCards.add(new Card(E_Card.GRAY));
+				PackOfCards.add(new Card(E_Card.GREEN));
+			}
+			for (int i=0; i<9; i++){	
+				PackOfCards.add(new Card(E_Card.ORANGE));
+			}
+		}
+		if (num_players.equals(3)){
+			for (int i=0; i<8; i++) {
+				PackOfCards.add(new Card(E_Card.BLUE));
+				PackOfCards.add(new Card(E_Card.BROWN));
+				PackOfCards.add(new Card(E_Card.GRAY));
+			}
+			for (int i=0; i<9; i++){
+				PackOfCards.add(new Card(E_Card.GREEN));
+				PackOfCards.add(new Card(E_Card.ORANGE));
+				PackOfCards.add(new Card(E_Card.PINK));
+				PackOfCards.add(new Card(E_Card.YELLOW));
+			}
+		}
+		if (num_players.equals(4)){
+			for (int i=0; i<8; i++) {
+				PackOfCards.add(new Card(E_Card.BLUE));
+				PackOfCards.add(new Card(E_Card.BROWN));
+				PackOfCards.add(new Card(E_Card.GRAY));
+				PackOfCards.add(new Card(E_Card.GREEN));
+			}
+			for (int i=0; i<9; i++){
+				PackOfCards.add(new Card(E_Card.ORANGE));
+				PackOfCards.add(new Card(E_Card.PINK));
+				PackOfCards.add(new Card(E_Card.YELLOW));
+			}
+		}
+		if (num_players.equals(5)){
+			for (int i=0; i<8; i++) {
+				PackOfCards.add(new Card(E_Card.BLUE));
+				PackOfCards.add(new Card(E_Card.BROWN));
+				PackOfCards.add(new Card(E_Card.GRAY));
+				PackOfCards.add(new Card(E_Card.GREEN));
+				PackOfCards.add(new Card(E_Card.ORANGE));
+			}
+			for (int i=0; i<9; i++){
+				PackOfCards.add(new Card(E_Card.PINK));
+				PackOfCards.add(new Card(E_Card.YELLOW));
+			}
+		}
+		
+		Collections.shuffle(PackOfCards); 		//Baraja las cartas 
+        PackOfCards.add(14, new Card(E_Card.LAST_ROUND));
+	}
+	*/
+	public Card draw(){
+		Integer last = PackOfCards.size() - 1;
+		Card card = PackOfCards.get(last);
+		PackOfCards.remove(card);
+		return card;
+	}
+	
+	public List<Card> getCards(){
+		return PackOfCards;
+	}
+}

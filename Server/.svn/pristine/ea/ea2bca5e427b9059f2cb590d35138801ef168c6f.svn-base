@@ -1,0 +1,32 @@
+
+
+import static org.junit.Assert.*;
+
+
+import org.junit.Before;
+import org.junit.Test;
+
+import coloretto.player.PackOfCards;
+import coloretto.player.Player;
+
+public class TestPackOfCards {
+	
+	private PackOfCards packOfCards;
+	private Player player1, player2, player3;
+	
+
+	@Before
+	public void setUp() throws Exception {
+		
+		player1 = new Player("Antonio");
+		player2 = new Player("Andrés");
+		player3 = new Player("Miguel Ángel");
+		packOfCards = new PackOfCards(player1, player2, player3);
+	}
+
+	@Test
+	public void test() {
+		assertEquals(packOfCards.getCards().get(packOfCards.getCards().size() - 1), packOfCards.draw());
+	}
+
+}

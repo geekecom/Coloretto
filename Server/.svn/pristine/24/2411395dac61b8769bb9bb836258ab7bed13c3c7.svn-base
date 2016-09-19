@@ -1,0 +1,85 @@
+package coloretto.commands;
+
+import coloretto.player.Card;
+import coloretto.player.Game;
+import coloretto.player.Player;
+import coloretto.player.WaitTurn;
+import coloretto.server.ClientConnection;
+
+public class PutACardCommand extends Command {
+	
+	Integer row;
+	Game currentGame;
+	Player currentPlayer;
+	Card card;
+	String res;
+
+	public PutACardCommand(String command, ClientConnection cc) {
+		super(command, cc);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String execute() {
+		String[] parts = command.split(" ");
+	
+		if(parts.length == 2){
+			currentPlayer = cc.getPlayer();
+			currentGame = currentPlayer.currentGame;
+			card = currentGame.currentCard;
+			row = Integer.valueOf(parts[1]);
+			
+			if(row < 3 || row < currentGame.getPlayers().size()){
+			
+				res = "Fila completa, no se puede colocar la carta";
+			if(currentGame.rows.get(row).isTaken()){
+				res = "La fila ya ha sido tomada en esta ronda, no se puede colocar la carta";
+			}
+			else{
+				if(currentGame.getPlayers().size() == 2){
+					if(row.equals(0)){
+						if(currentGame.rows.get(0).getRow().size() < 1){
+							put(row);
+							currentGame.rows.get(0).setFull(true);
+						}
+					}else if (row.equals(1)){
+						if(currentGame.rows.get(1).getRow().size() < 2){
+							put(row);
+							if(currentGame.rows.get(1).getRow().size() == 2){
+								currentGame.rows.get(1).setFull(true);
+							}
+						}
+					}else
+						if(currentGame.rows.get(2).getRow().size() < 3){
+							put(row);
+							if(currentGame.rows.get(2).getRow().size() == 3){
+								currentGame.rows.get(2).setFull(true);
+							}
+						}
+				}
+				else{
+					if(currentGame.rows.get(row).getRow().size() < 3){
+						put(row);
+						if(currentGame.rows.get(row).getRow().size() == 3){
+							currentGame.rows.get(row).setFull(true);
+						}
+					}
+				}
+			}
+			}else{
+				res = "No puedes seleccionar ese número de fila";
+			}
+		}else {
+			res = "Se esperaban 2 parÃ¡metros"; 
+			}
+		
+		return res;	
+	}
+
+	public void put(int row){
+		currentGame.rows.get(row).getRow().add(card);
+		currentPlayer.setCurrentState( new WaitTurn());
+		currentGame.nextTurn();
+		res = "Has colocado la carta " + card.toString() + " en la fila " + row;
+	}
+}

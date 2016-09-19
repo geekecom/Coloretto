@@ -1,0 +1,114 @@
+package coloretto.player;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Game {
+
+	public static Integer gamesID = 0;
+	public Integer gameID;
+	public Integer round;
+	public List<Player> players;
+	public List<ArrayList<Card>> rows = new ArrayList<ArrayList<Card>>();;
+	public PackOfCards cards;
+	public Card currentCard;
+	public Integer currentTurn;
+	public Player currentPlayer;
+	public boolean started;
+
+	public Game(Integer num_player) {
+		this.round = 1;
+		gameID = gamesID;
+		Game.gamesID++;
+		players = new ArrayList<Player>();
+	
+		if (num_player.equals(2)) {
+			rows.add(new ArrayList<Card>(1));
+			rows.add(new ArrayList<Card>(2));
+			rows.add(new ArrayList<Card>(3));
+		
+		} else {
+			for(int i=0; i<num_player; i++){
+				rows.add(new ArrayList<Card>(3));
+			}
+		
+		}
+		started = false;
+	}
+
+	public void setStarted(boolean started) {
+		this.started = started;
+	}
+
+	public void addPlayer(Player player) {
+		players.add(player);
+	}
+
+	public void removePlayer(Player player) {
+		players.remove(player);
+	}
+
+	public Integer getGameID() {
+		return gameID;
+	}
+
+	public String toString() {
+		return "Juego: " + getGameID().toString() + ". Jugadores: "
+				+ players.toString() + ". Iniciada: " + started;
+	}
+
+	public void startGame() {
+		
+		if(players.size()==2){
+			players.get(0).getCards().add(new Card(E_Card.BLUE));
+			players.get(0).getCards().add(new Card(E_Card.BROWN));
+			players.get(1).getCards().add(new Card(E_Card.GRAY));
+			players.get(1).getCards().add(new Card(E_Card.GREEN));
+		}
+		if(players.size()==3){
+			players.get(0).getCards().add(new Card(E_Card.BLUE));
+			players.get(1).getCards().add(new Card(E_Card.BROWN));
+			players.get(2).getCards().add(new Card(E_Card.GRAY));
+		}
+		if(players.size()==4){
+			players.get(0).getCards().add(new Card(E_Card.BLUE));
+			players.get(1).getCards().add(new Card(E_Card.BROWN));
+			players.get(2).getCards().add(new Card(E_Card.GRAY));
+			players.get(3).getCards().add(new Card(E_Card.GREEN));
+		}
+		if(players.size()==5){
+			players.get(0).getCards().add(new Card(E_Card.BLUE));
+			players.get(1).getCards().add(new Card(E_Card.BROWN));
+			players.get(2).getCards().add(new Card(E_Card.GRAY));
+			players.get(3).getCards().add(new Card(E_Card.GREEN));
+			players.get(4).getCards().add(new Card(E_Card.ORANGE));
+		}
+		cards = new PackOfCards(players.size());
+		Collections.shuffle(players);
+		this.currentTurn = 0;
+		currentPlayer = players.get(currentTurn);
+		currentPlayer.setCurrentState(new Turn());
+		this.round = 0;
+		this.started = true;
+	}
+
+	public void nextTurn() {
+		currentTurn = (currentTurn + 1) % players.size();
+		if (currentTurn.equals(0))
+			this.round = this.round + 1;
+		currentPlayer = players.get(currentTurn);
+		State<?> nextState = new Turn();
+		currentPlayer.setCurrentState(nextState);	
+			
+	}
+	
+	public void setCurrentCard(Card currentCard) {
+		this.currentCard = currentCard;
+	}
+
+	public List<Player> getPlayers(){
+		return players;
+	}
+
+}

@@ -1,0 +1,30 @@
+package commands;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import coloretto.commands.ShowGamesCommand;
+
+public class TestShowGames {
+	
+	private ShowGamesCommand show;
+	private String command;
+	private ClientConnectionMock cc;
+	
+	@Before
+	public void setUp() throws Exception {
+		cc = new ClientConnectionMock("pimbar");
+		command = "SHOW";
+		show = new ShowGamesCommand(command, cc);
+		
+	}
+	
+	@Test
+	public void testShow() {
+			assertEquals(1, show.execute().compareTo("Juego: 0. Jugadores: [Lorenzo, Andrés, Miguel Ángel, Antonio]. Iniciada: false"));
+	}
+
+
+}

@@ -1,0 +1,17 @@
+package coloretto.commands;
+
+import coloretto.server.ClientConnection;
+
+public class StartGameCommand extends Command{
+	
+	public StartGameCommand(String command, ClientConnection cc){
+		super(command, cc);
+	}
+	
+	public String execute(){
+		cc.getPlayer().getCurrentGame().startGame();
+		String res = "Partida iniciada";
+		return res;
+	}
+
+}

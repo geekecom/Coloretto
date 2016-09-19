@@ -1,0 +1,41 @@
+package commands;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import coloretto.player.Player;
+import coloretto.server.ClientConnection;
+import coloretto.server.GameServer;
+
+
+public class ClientConnectionMock extends ClientConnection{
+	
+	List<Player> players = new ArrayList<Player>();
+	Player player;
+	
+
+	public ClientConnectionMock(String playerID) {
+	
+		super(playerID);
+		
+	}
+
+	
+	public void loginPlayer(String playerID) {
+		players.add(new Player(playerID));
+	}
+	
+	public GameServer getServer(){
+		GameServer server = new GameServer();
+		return server;
+	}
+	
+	public List<Player> getPlayers() {
+		
+		players.add(new Player("lorenzo"));
+		players.add(new Player("andrés"));
+		players.add(new Player("miguel ángel"));
+		players.add(new Player("antonio"));
+		return players; 
+	}
+}

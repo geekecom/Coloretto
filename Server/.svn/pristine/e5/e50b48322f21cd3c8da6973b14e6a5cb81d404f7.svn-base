@@ -1,0 +1,21 @@
+package coloretto.commands;
+
+import coloretto.player.Player;
+import coloretto.server.ClientConnection;
+
+public class HelpCommand extends Command {
+
+	public HelpCommand(String command, ClientConnection cc) {
+		super(command, cc);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String execute() {
+		String res = null;
+		Player player = cc.getPlayer();
+		res = player.currentState.help();
+		return res;
+	}
+
+}

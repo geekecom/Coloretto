@@ -1,0 +1,46 @@
+package coloretto.player;
+
+import java.util.List;
+import java.util.ArrayList;
+
+public class Player {
+	private Integer score;
+	public String playerID;
+	public  State<?> currentState;
+	List<Card> cards;
+	
+	public Player (String playerID){
+		this.playerID = playerID;
+		cards = new ArrayList<Card>();
+		score = 0;
+		currentState = new Anonymous();
+		
+	}
+	
+	public State<?> getCurrentState() {
+		return currentState;
+	}
+
+	public void setCurrentState(State<?> currentState) {
+		this.currentState = currentState;
+	}
+
+	public List<Card> getCards(){
+		return cards;
+	}
+	
+	public String getPlayerID(){
+		return playerID;
+	}
+	
+	public void setPlayerID(String playerID) {
+		this.playerID = playerID;
+	}
+
+	
+	public Integer getScore(){
+		return score;
+	}
+	
+
+}

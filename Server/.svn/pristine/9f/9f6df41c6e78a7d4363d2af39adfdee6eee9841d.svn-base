@@ -1,0 +1,49 @@
+package coloretto.commands;
+
+import coloretto.player.Card;
+import coloretto.player.Game;
+import coloretto.player.Player;
+import coloretto.player.State;
+import coloretto.player.WaitTurn;
+import coloretto.server.ClientConnection;
+
+public class PutACardCommand extends Command {
+	
+	Integer row;
+
+	public PutACardCommand(String command, ClientConnection cc) {
+		super(command, cc);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String execute() {
+		String[] parts = command.split(" ");
+		String res = null;
+	
+		if(parts.length == 2){
+			Player currentPlayer = cc.getPlayer();
+			Game currentGame = currentPlayer.currentGame;
+			Card card = currentGame.currentCard;
+			State<?> nextState = new WaitTurn();
+			row = Integer.valueOf(parts[1]);
+			
+			if(currentGame.rows.get(row).size() < 3)
+				currentGame.rows.get(row).add(card);
+			
+			currentPlayer.setCurrentState(nextState);
+			currentGame.nextTurn();
+			
+			res = "Has colocado la carta" + card.toString() + "en la fila" + row.toString();
+		
+			
+		}else {
+			res = "Se esperaban 2 parámetros"; 
+			}
+		
+		return res;
+		 		
+	
+	}
+
+}

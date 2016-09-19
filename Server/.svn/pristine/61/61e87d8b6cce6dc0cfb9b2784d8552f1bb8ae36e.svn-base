@@ -1,0 +1,59 @@
+import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+
+import coloretto.player.Card;
+import coloretto.player.E_Card;
+import coloretto.player.Player;
+
+
+public class TestPlayer{
+	
+	private Player player = new Player("Pimbar");
+	@Before
+	public void SetUp(){
+		
+		/*player.cards.add(E_Card.BLUE);
+		player.cards.add(E_Card.GREEN);
+		player.cards.add(E_Card.GREEN);
+		player.cards.add(E_Card.BLUE);
+		player.cards.add(E_Card.YELLOW);
+		player.cards.add(E_Card.GREEN);
+		player.cards.add(E_Card.PLUS_TWO);
+		player.cards.add(E_Card.YELLOW);
+		player.cards.add(E_Card.JOKER);
+		player.cards.add(E_Card.GREEN);
+		player.cards.add(E_Card.YELLOW);
+		player.cards.add(E_Card.ORANGE);
+		player.cards.add(E_Card.GREEN);
+		player.cards.add(E_Card.GREEN);
+		player.cards.add(E_Card.ORANGE);
+		player.cards.add(E_Card.YELLOW);
+		player.cards.add(E_Card.ORANGE);*/
+		
+		player.cards.add(new Card(E_Card.BLUE));
+		player.cards.add(new Card(E_Card.GREEN));
+		player.cards.add(new Card(E_Card.GREEN));
+		player.cards.add(new Card(E_Card.BLUE));
+		player.cards.add(new Card(E_Card.YELLOW));
+		player.cards.add(new Card(E_Card.GREEN));
+		player.cards.add(new Card (E_Card.PLUS_TWO));
+		player.cards.add(new Card(E_Card.YELLOW));
+		player.cards.add(new Card (E_Card.JOKER));
+		player.cards.add(new Card(E_Card.GREEN));
+		player.cards.add(new Card(E_Card.YELLOW));
+		player.cards.add(new Card (E_Card.ORANGE));
+		player.cards.add(new Card(E_Card.GREEN));
+		player.cards.add(new Card(E_Card.GREEN));
+		player.cards.add(new Card (E_Card.ORANGE));
+		player.cards.add(new Card(E_Card.YELLOW));
+		player.cards.add(new Card (E_Card.ORANGE));	
+		
+	}
+	
+	@Test
+	public void testPlayer(){
+		assertEquals(41, player.getScore());
+	}
+	
+}

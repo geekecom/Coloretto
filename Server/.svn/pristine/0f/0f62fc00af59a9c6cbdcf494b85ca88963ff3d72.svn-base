@@ -1,0 +1,29 @@
+package coloretto.player;
+
+import java.util.List;
+import java.util.ArrayList;
+
+public class Player {
+	private Integer score;
+	private String playerID;
+	List<Card> cards;
+	
+	public Player (String playerID){
+		this.playerID = playerID;
+		cards = new ArrayList<Card>();
+		score = 0;
+	}
+	
+	public List<Card> getCards(){
+		return cards;
+	}
+	
+	public String getPlayerID(){
+		return playerID;
+	}
+	
+	public Integer getScore(){
+		return score;
+	}
+
+}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="coloretto.player.Wait"/>
+<fullyQualifiedTypeName name="coloretto.states.WaitTurnCommandFactory"/>
+<fullyQualifiedTypeName name="coloretto.commands.CommandFactory"/>
+<fullyQualifiedTypeName name="coloretto.states.TurnCommandFactory"/>
+<fullyQualifiedTypeName name="coloretto.commands.CardToPlayCommand"/>
+<fullyQualifiedTypeName name="com.google.common.collect.Lists"/>
+<fullyQualifiedTypeName name="coloretto.states.TurnPutCommandFactory"/>
+<fullyQualifiedTypeName name="junit.framework.TestCase"/>
+<fullyQualifiedTypeName name="org.junit.Test"/>
+<fullyQualifiedTypeName name="coloretto.commands.PutACardCommand"/>
+<fullyQualifiedTypeName name="coloretto.commands.ShowGamesCommand"/>
+<fullyQualifiedTypeName name="coloretto.commands.LogoutCommand"/>
+<fullyQualifiedTypeName name="coloretto.commands.LoginCommand"/>
+<fullyQualifiedTypeName name="java.net.Socket"/>
+<fullyQualifiedTypeName name="coloretto.commands.JoinPlayerCommand"/>
+<fullyQualifiedTypeName name="coloretto.commands.HelpCommand"/>
+<fullyQualifiedTypeName name="coloretto.player.State"/>
+<fullyQualifiedTypeName name="coloretto.player.Logued"/>
+<fullyQualifiedTypeName name="coloretto.player.Turn"/>
+<fullyQualifiedTypeName name="coloretto.player.TurnPut"/>
+<fullyQualifiedTypeName name="coloretto.player.WaitingGame"/>
+<fullyQualifiedTypeName name="coloretto.player.WaitTurn"/>
+<fullyQualifiedTypeName name="coloretto.player.Card"/>
+<fullyQualifiedTypeName name="coloretto.commands.TakeARowCommand"/>
+<fullyQualifiedTypeName name="coloretto.player.Row"/>
+<fullyQualifiedTypeName name="coloretto.commands.DrawACardCommand"/>
+<fullyQualifiedTypeName name="coloretto.player.PackOfCards"/>
+<fullyQualifiedTypeName name="coloretto.player.E_Card"/>
+<fullyQualifiedTypeName name="coloretto.commands.StartGameCommand"/>
+<fullyQualifiedTypeName name="coloretto.commands.JoinGameCommand"/>
+<fullyQualifiedTypeName name="coloretto.player.Player"/>
+<fullyQualifiedTypeName name="org.junit.Before"/>
+<fullyQualifiedTypeName name="coloretto.player.Game"/>
+<fullyQualifiedTypeName name="coloretto.player.Lobby"/>
+<fullyQualifiedTypeName name="coloretto.server.GameServer"/>
+<fullyQualifiedTypeName name="coloretto.server.ClientConnection"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="coloretto.commands.LeaveGameCommand"/>
+<fullyQualifiedTypeName name="coloretto.server.ServerMain"/>
+<fullyQualifiedTypeName name="coloretto.commands.CreateGameCommand"/>
+<fullyQualifiedTypeName name="coloretto.commands.Command"/>
+<fullyQualifiedTypeName name="javax.management.ReflectionException"/>
+</qualifiedTypeNameHistroy>

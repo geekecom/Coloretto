@@ -1,0 +1,34 @@
+package commands;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import coloretto.commands.LoginCommand;
+
+public class TestLogin {
+	private LoginCommand login;
+	private String command;
+	private ClientConnectionMock cc;
+
+
+	@Test
+	public void testUnregistered() {
+		
+		command = "LOGIN pimbar";
+		cc = new ClientConnectionMock("pimbar");
+		login = new LoginCommand(command, cc);
+		assertEquals("Usuario pimbar registrado correctamente", login.execute());
+	
+	}
+	
+	@Test
+	public void testRegistered(){
+		
+		command = "LOGIN andrés";
+		cc = new ClientConnectionMock("andrés");
+		login = new LoginCommand(command, cc);
+		assertEquals("Usuario ya existente", login.execute());
+	}
+
+}

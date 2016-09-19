@@ -1,0 +1,53 @@
+package coloretto.commands;
+
+import coloretto.player.Game;
+import coloretto.player.Player;
+import coloretto.server.ClientConnection;
+import coloretto.server.GameServer;
+
+public class LeaveGameCommand extends Command {
+
+	Integer gameID;
+
+	public LeaveGameCommand(String command, ClientConnection cc) {
+		super(command, cc);
+	}
+
+	@Override
+	public String execute() {
+		String info = parse();
+		Game currentGame = null;
+		for(Game g: GameServer.getGames()){
+			if(g.getGameID() == gameID){
+				currentGame = g;
+			}	
+		}
+		if(!currentGame.started){
+			for(Player currentPlayer: GameServer.getPlayers()){
+				if(currentPlayer.getPlayerID() == cc.getPlayer().getPlayerID()){
+					currentGame.removePlayer(currentPlayer);
+				}
+			}
+		}else{
+			GameServer.getGames().remove(currentGame);
+		}
+		return info;
+	}
+	
+	private String parse(){
+		String res = null;
+		String [] parts = command.split(" ");
+		try{
+			if(parts.length == 2){
+				gameID = Integer.valueOf(parts[1]);
+				res = cc.getPlayer().getPlayerID() + " ha abandonado la partida " + gameID;
+				System.out.println(GameServer.getPlayers());
+			}else{
+				res = "Se esperaban 2 parámetros";
+			}
+		}catch (NumberFormatException exc){res = "Clave no numérica";}
+		return res;
+	}
+	
+
+}

@@ -1,0 +1,67 @@
+package coloretto.states;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+import coloretto.commands.Command;
+import coloretto.commands.CommandFactory;
+import coloretto.commands.DrawACardCommand;
+import coloretto.commands.ErrorCommand;
+import coloretto.commands.HelpCommand;
+import coloretto.commands.LoginCommand;
+import coloretto.commands.TakeARowCommand;
+import coloretto.server.ClientConnection;
+
+public class TurnCommandFactory extends CommandFactory{
+	protected Map<String, Class<?>> allowedCommands = new HashMap<String, Class<?>>();
+
+	public TurnCommandFactory() {
+		super();
+		allowedCommands.put("LOGIN", LoginCommand.class);
+		allowedCommands.put("HELP", HelpCommand.class);
+		allowedCommands.put("DRAW", DrawACardCommand.class);
+		allowedCommands.put("TAKE", TakeARowCommand.class);
+	}
+	@Override
+	public Command createCommand(String command, ClientConnection cc) {
+		Command res = new ErrorCommand("Error en el procesamiento", cc);
+		StringTokenizer tokenizer = new StringTokenizer(command, " ");
+		if (tokenizer.hasMoreTokens()) {
+			String keyword = tokenizer.nextToken().toUpperCase();
+			if (allowedCommands.containsKey(keyword)) {
+				//try {
+					Class<?> res1 = allowedCommands.get(keyword);
+					try {
+						res = (Command) res1.getConstructor(String.class,
+								ClientConnection.class).newInstance(command, cc);
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoSuchMethodException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SecurityException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+			
+			} else {
+				res = new ErrorCommand("Comando no permitido", cc);
+			}
+		}
+		return res;
+	}
+
+}

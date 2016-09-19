@@ -1,0 +1,75 @@
+package commands;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import coloretto.commands.StartGameCommand;
+import coloretto.player.Game;
+import coloretto.player.Player;
+import coloretto.server.ClientConnection;
+
+public class TestStartGame {
+	private StartGameCommand start;
+	private String command;
+	private ClientConnection cc;
+	private List<Player> players;
+	@Before
+	public void setUp() throws Exception {
+		players = new ArrayList<Player>();
+	}
+
+	@Test
+	public void test() {
+		players.add(new Player("Lorenzo"));
+		players.add(new Player("Andrés"));
+		players.add(new Player("Miguel Ángel"));
+		players.add(new Player("Antonio"));
+		for (int i=0; i<4; i++){
+			players.get(i).setStart(false);
+		cc = new ClientConnection("Lorenzo");
+		cc.getPlayer().setCurrenGame(new Game(4));
+		cc.getPlayer().getCurrentGame().setPlayers(players);
+		
+		}
+		command = "START";
+		start = new StartGameCommand(command, cc);
+		assertEquals("Esperando confirmación de todo los jugadores", start.execute());
+	}
+	
+	@Test
+	public void testStart() {
+		players.add(new Player("Lorenzo"));
+		players.add(new Player("Andrés"));
+		players.add(new Player("Miguel Ángel"));
+		players.add(new Player("Antonio"));
+		for (int i=0; i<4; i++){
+			players.get(i).setStart(true);
+		}
+		cc = new ClientConnection("Andrés");
+		cc.getPlayer().setCurrenGame(new Game(4));
+		cc.getPlayer().getCurrentGame().setPlayers(players);
+		
+		command = "START";
+		start = new StartGameCommand(command, cc);
+		assertEquals("Partida iniciada", start.execute());
+	}
+	
+	@Test
+	public void testNoPlayers() {
+		players.add(new Player("Andrés"));
+		cc = new ClientConnection("Andrés");
+		cc.getPlayer().setCurrenGame(new Game(4));
+		cc.getPlayer().getCurrentGame().setPlayers(players);
+		
+		command = "START";
+		start = new StartGameCommand(command, cc);
+		assertEquals("Debe esperar que haya jugadores suficientes", start.execute());
+	}
+	
+
+}

@@ -1,0 +1,51 @@
+package coloretto.commands;
+
+import coloretto.player.Card;
+import coloretto.player.Game;
+import coloretto.player.Player;
+import coloretto.player.State;
+import coloretto.player.WaitTurn;
+import coloretto.server.ClientConnection;
+
+public class TakeARowCommand extends Command {
+
+	Integer row;
+
+	public TakeARowCommand(String command, ClientConnection cc) {
+		super(command, cc);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String execute() {
+		String[] parts = command.split(" ");
+		String res = null;
+
+		if (parts.length == 2) {
+			Player currentPlayer = cc.getPlayer();
+			Game currentGame = currentPlayer.currentGame;
+			State<?> nextState = new WaitTurn();
+			row = Integer.valueOf(parts[1]);
+
+			if (currentGame.rows.get(row).isEmpty())
+				res = "No se puede coger esta fila";
+			else {
+
+				for (Card card : currentGame.rows.get(row)) {
+					currentPlayer.getCards().add(card);
+				}
+
+				currentPlayer.setCurrentState(nextState);
+				currentGame.nextTurn();
+
+				res = "Has seleccionado la fila" + row.toString();
+			}
+
+		} else {
+			res = "Se esperaban 2 parámetros";
+		}
+		return res;
+
+	}
+
+}

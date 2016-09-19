@@ -1,0 +1,59 @@
+package coloretto.commands;
+
+import coloretto.player.Game;
+import coloretto.player.Logued;
+import coloretto.server.ClientConnection;
+
+public class LeaveGameCommand extends Command {
+
+	Integer gameID;
+	Game currentGame = null;
+
+	public LeaveGameCommand(String command, ClientConnection cc) {
+		super(command, cc);
+	}
+
+	@Override
+	public String execute() {
+		//String info = parse();
+		String info;
+		for (Game game : cc.getServer().getGames()) {
+			if (game.getPlayers().contains(cc.getPlayer())) {
+				game.getPlayers().remove(cc.getPlayer());
+				cc.getPlayer().setCurrentState(new Logued());
+				break;
+			}
+		}
+		info = cc.getPlayer().getPlayerID() + " ha abandonado la partida "
+				+ gameID;
+		/*
+		 * if(!currentGame.started){ for(Player currentPlayer:
+		 * currentGame.getPlayers()){
+		 * if(currentPlayer.getPlayerID().equals(cc.getPlayer().getPlayerID())){
+		 * if(currentGame.getPlayers().size() == 1 ){
+		 * cc.getServer().getGames().remove(currentGame); }else{
+		 * currentGame.removePlayer(currentPlayer); } } } }else{
+		 * cc.getServer().getGames().remove(currentGame); for(Player
+		 * currentPlayer: currentGame.getPlayers()){
+		 * currentPlayer.setCurrenGame(null); currentPlayer.setCurrentState(new
+		 * Logued()); } } cc.getPlayer().setCurrentState(new Logued());
+		 */
+		//return info;
+		
+		return info;
+	}
+
+	/*private String parse() {
+		String res = null;
+		String[] parts = command.split(" ");
+		if (parts.length == 1) {
+			gameID = Integer.valueOf(parts[1]);
+			res = cc.getPlayer().getPlayerID() + " ha abandonado la partida "
+					+ gameID;
+		} else {
+			res = "Sólo se esperaba un parámetro";
+		}
+		return res;
+	}*/
+
+}

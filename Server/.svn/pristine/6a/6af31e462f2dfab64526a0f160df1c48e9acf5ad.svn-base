@@ -1,0 +1,47 @@
+package coloretto.commands;
+
+import coloretto.player.Game;
+import coloretto.server.ClientConnection;
+import coloretto.server.GameServer;
+
+public class CreateGameCommand extends Command {
+	Integer num_players = 0;
+
+	public CreateGameCommand(String command, ClientConnection cc) {
+		super(command, cc);
+	}
+
+	@Override
+	public String execute() {
+		String info = parse();
+		if (info.equals("El número de jugadores debe estar entre 2 y 5") == false
+				&& info.equals("Orden incorrecta") == false
+				&& info.equals("Clave no numérica") == false) {
+			GameServer.createGame(num_players);
+			GameServer.getGames().get(GameServer.getGames().size() - 1)
+					.addPlayer(cc.getPlayer());
+		}
+		return info;
+	}
+
+	private String parse() {
+		String res = null;
+		String[] parts = command.split(" ");
+		try {
+			if (parts.length == 2) {
+				num_players = Integer.valueOf(parts[1]);
+				if (num_players <= 5 && num_players >= 2) {
+					res = "Juego creado con id: "
+							+ Integer.valueOf(Game.gamesID);
+				} else {
+					res = "El número de jugadores debe estar entre 2 y 5";
+				}
+			} else {
+				res = "Orden incorrecta";
+			}
+		} catch (NumberFormatException exc) {
+			res = "Clave no numérica";
+		}
+		return res;
+	}
+}

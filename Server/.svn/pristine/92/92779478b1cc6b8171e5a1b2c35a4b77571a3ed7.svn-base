@@ -1,0 +1,13 @@
+package coloretto.server;
+
+public class ServerMain {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		GameServer server = new GameServer();
+		if (!server.initServer())
+			System.out.println("No se ha podido crear el servidor");
+	}
+}

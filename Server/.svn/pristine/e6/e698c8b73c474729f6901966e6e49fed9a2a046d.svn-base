@@ -1,0 +1,39 @@
+package coloretto.commands;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import coloretto.player.Logued;
+import coloretto.player.Player;
+import coloretto.server.ClientConnection;
+
+public class LoginCommand extends Command{ 
+	
+	public LoginCommand(String command, ClientConnection cc){
+		super(command,cc);
+	}
+	
+	public String execute(){
+		String[] parts = command.split(" ");
+		String playerID = parts[1];
+		String res = "Se esperaban 2 parámetros";
+		
+		if(parts.length == 2){
+			List<String> playersID = new ArrayList<String>();
+			for (Player players : cc.getPlayers()) {
+				playersID.add(players.getPlayerID());
+			}
+		
+			if(playersID.contains(playerID)){
+				res = "Usuario ya existente";
+			}else{
+				cc.loginPlayer(playerID);
+				Player currentPlayer = cc.getPlayer();
+				currentPlayer.setCurrentState(new Logued());
+				res = "Usuario " + playerID + " registrado correctamente";
+			}
+		}
+		return res;
+	}
+
+}

@@ -1,0 +1,23 @@
+package coloretto.player;
+
+import coloretto.states.AnonymousCommandFactory;
+
+public class Anonymous extends State<AnonymousCommandFactory> {
+
+	private AnonymousCommandFactory factory ;
+	
+	public Anonymous(){
+		factory = new AnonymousCommandFactory();
+	}
+	
+	public AnonymousCommandFactory getFactory(){
+		return factory;
+	}
+	public String help() {
+		String res = null;
+		res = "Comandos disponibles: LOGIN";
+		return res;
+	}
+	
+
+}
